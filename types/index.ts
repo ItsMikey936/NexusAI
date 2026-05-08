@@ -1,13 +1,13 @@
 // Definición de tipos
 
 //Conversation
-type Conversation = {
+export type Conversation = {
   messages: Message[]
   startedAt: Date
 }
 
 //Message
-type Message = {
+export type Message = {
   id: string
   content: string
   role: 'user' | 'assistant'
@@ -16,7 +16,7 @@ type Message = {
 }
 
 //Documents
-type Document = {
+export type Document = {
   name: string
   type: 'pdf' | 'image'
   size: number
@@ -24,7 +24,7 @@ type Document = {
 }
 
 //Trend
-type Trend = {
+export type Trend = {
   title: string
   summary: string
   area: ProfessionalArea
@@ -34,7 +34,7 @@ type Trend = {
 }
 
 // Professional area
-type ProfessionalArea = {
+export type ProfessionalArea = {
   name: string
   searchKeywords: string[]
 }
