@@ -1,3 +1,5 @@
+"use client"
+
 import type { AreaFilterProps } from "@/types/index"
 
 export default function AreaFilter({areas, selectedArea, onSelect}: AreaFilterProps) {
