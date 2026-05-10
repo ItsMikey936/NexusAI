@@ -1,6 +1,6 @@
 import type { Trend } from "@/types/index"
 
-function TrendCard({ title, summary, area, source, url, publishedAt }: Trend) {
+export default function TrendCard({ title, summary, area, source, url, publishedAt }: Trend) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-3 hover:shadow-md transition-shadow duration-200">
       <span className="text-xs font-medium text-purple-600 bg-purple-50 px-3 py-1 rounded-full w-fit">

@@ -38,3 +38,11 @@ export type ProfessionalArea = {
   name: string
   searchKeywords: string[]
 }
+
+
+// AreaFilterProps
+export type AreaFilterProps = {
+  areas: ProfessionalArea[]
+  selectedArea: string
+  onSelect: (area: string) => void
+}
