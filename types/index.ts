@@ -27,7 +27,7 @@ export type Document = {
 export type Trend = {
   title: string
   summary: string
-  area: ProfessionalArea
+  area: string
   source: string
   url: string
   publishedAt: string
