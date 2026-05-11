@@ -46,3 +46,9 @@ export type AreaFilterProps = {
   selectedArea: string
   onSelect: (area: string) => void
 }
+
+
+// ChatInputProps
+export type ChatInputProps = {
+  onSend: (message: string) => void
+}
