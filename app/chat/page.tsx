@@ -24,8 +24,7 @@ export default function Chat() {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  //Funcion que agrega al array
-  const handleAdd = (text: string) => {
+  const handleAdd = async (text: string) => {
     // 1. Agrega mensaje del usuario
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -35,20 +34,22 @@ export default function Chat() {
     }
     setMessages((prev) => [...prev, userMessage])
 
-    // 2. Simula que el asistente está pensando
     setIsLoading(true)
 
-    // 3. Después de 1 segundo agrega respuesta falsa
-    setTimeout(() => {
-      const assistantMessage: Message = {
-        id: Date.now().toString(),
-        content: "This is a simulated response. The AI will be connected in the next stage.",
-        role: "assistant",
-        timestamp: new Date()
-      }
-      setMessages((prev) => [...prev, assistantMessage])
-      setIsLoading(false)
-    }, 1000)
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: [...messages, userMessage]})
+    })
+    const data = await response.json()
+    const assistantMessage: Message = {
+      id: Date.now().toString(),
+      content: data.reply,
+      role: "assistant",
+      timestamp: new Date()
+    }
+    setMessages((prev) => [...prev, assistantMessage])
+    setIsLoading(false)
   }
 
 
