@@ -3,7 +3,7 @@
 //Componentes
 import TrendCard from "@/components/TrendCard"
 import AreaFilter from "@/components/AreaFilter"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 //Tipos
 import type { Trend } from "@/types/index"
@@ -31,46 +31,21 @@ export default function Trends() {
     }
   ];
 
-  const trends: Trend[] = [
-    {
-      title: "The Rise of Agentic AI Workflows",
-      summary: "Moving beyond simple chatbots, companies are now deploying autonomous agents capable of executing complex multi-step tasks in development and operations.",
-      area: "Software Engineering",
-      source: "Gartner",
-      url: "https://example.com/trends/agentic-ai",
-      publishedAt: "2026-03-15"
-    },
-    {
-      title: "AI-Driven Genomic Sequencing",
-      summary: "Machine learning models are reducing the time required for DNA analysis from weeks to hours, enabling hyper-personalized medical treatments.",
-      area: "Medicine & Healthcare",
-      source: "Nature Biotechnology",
-      url: "https://example.com/trends/genomic-ai",
-      publishedAt: "2026-04-10"
-    },
-    {
-      title: "Shift Towards Green Software Engineering",
-      summary: "New industry standards focus on measuring and reducing the carbon footprint of intensive cloud computations and large-scale model training.",
-      area: "Software Engineering",
-      source: "The Green Software Foundation",
-      url: "https://example.com/trends/green-coding",
-      publishedAt: "2026-02-20"
-    },
-    {
-      title: "Zero Trust as a Corporate Mandate",
-      summary: "With the increase in sophisticated phishing, enterprises are shifting to strict identity verification for every single access request within their networks.",
-      area: "Cybersecurity",
-      source: "Wired Business",
-      url: "https://example.com/trends/zero-trust",
-      publishedAt: "2026-05-01"
-    }
-  ];
+  const [trends, setTrends] = useState<Trend[]>([])
 
   //Uso de estados
   const [selectedArea, setSelectedArea] = useState("Software Engineering")
 
-  //Filtrado de array
-  const filteredTrends = trends.filter((trend) => trend.area === selectedArea)
+  useEffect(() => {
+    const loadTrends = async () => {
+      const response = await fetch(`/api/trends?area=${selectedArea}`)
+      const data = await response.json()
+      console.log(data)
+      setTrends(data.trends)
+    }
+
+    loadTrends()
+  }, [selectedArea])
 
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-10 max-w-6xl mx-auto">
@@ -89,7 +64,7 @@ export default function Trends() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTrends.map((trend) => (
+        {trends.map((trend) => (
           <TrendCard key={trend.url} {...trend} />
         ))}
       </div>

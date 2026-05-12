@@ -31,6 +31,10 @@ export async function GET(request: Request) {
   const url = `https://gnews.io/api/v4/search?q=${keywords}&lang=en&max=10&token=${process.env.GNEWS_API_KEY}`
   const response = await fetch(url)
   const data = await response.json()
+  console.log(data)
+  if (!data.articles) {
+    return Response.json({ trends: []})
+  }
 
   const trends = data.articles.map((article: any) => ({
     title: article.title,
