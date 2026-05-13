@@ -38,10 +38,9 @@ export default function Trends() {
 
   useEffect(() => {
     const loadTrends = async () => {
-      const response = await fetch(`/api/trends?area=${selectedArea}`)
+      const response = await fetch(`/api/trends?area=${encodeURIComponent(selectedArea)}`)
       const data = await response.json()
-      console.log(data)
-      setTrends(data.trends)
+      setTrends(data.trends ?? [])
     }
 
     loadTrends()
