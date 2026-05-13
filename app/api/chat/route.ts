@@ -12,12 +12,10 @@ export async function POST(request: Request) {
   }))
 
   if (file) {
-   if (file.type === "application/pdf") {
+  if (file.type === "application/pdf") {
     const PDFParser = (await import("pdf2json")).default
     const pdfParser = new PDFParser()
-  
     const buffer = Buffer.from(file.data.split(",")[1], "base64")
-  
     const text = await new Promise<string>((resolve, reject) => {
       pdfParser.on("pdfParser_dataReady", (pdfData: any) => {
         const text = pdfData.Pages
@@ -25,18 +23,31 @@ export async function POST(request: Request) {
           .map((t: any) => decodeURIComponent(t.R[0].T))
           .join(" "))
           .join("\n")
-          resolve(text)
-        })
+        resolve(text)
+      })
       pdfParser.on("pdfParser_dataError", reject)
       pdfParser.parseBuffer(buffer)
     })
-
     groqMessages.push({
       role: "user",
       content: `El usuario adjuntó un PDF llamado "${file.name}". Aquí está su contenido:\n\n${text}`
     })
-    } 
+  } else if (file.type.startsWith("image/")) {
+    groqMessages.push({
+      role: "user",
+      content: [
+        {
+          type: "image_url",
+          image_url: { url: file.data }
+        },
+        {
+          type: "text",
+          text: `El usuario adjuntó una imagen llamada "${file.name}". Analízala en el contexto de la conversación.`
+        }
+      ]
+    })
   }
+}
 
   const response = await groq.chat.completions.create({
     model: "meta-llama/llama-4-scout-17b-16e-instruct",
