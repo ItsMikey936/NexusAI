@@ -54,7 +54,7 @@ export default function ChatInput({onSend}: ChatInputProps) {
       ref={fileInputRef}
       className="hidden"
       onChange={handleFileChange}
-      accept=".pdf,image/*"
+      accept=".pdf, application/pdf,image/*"
     />
   </div>
 )
