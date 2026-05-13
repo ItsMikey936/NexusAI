@@ -24,7 +24,16 @@ export default function Chat() {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleAdd = async (text: string) => {
+  const toBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  }
+
+  const handleAdd = async (text: string, file?: File) => {
     // 1. Agrega mensaje del usuario
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -36,10 +45,24 @@ export default function Chat() {
 
     setIsLoading(true)
 
+    let fileData = null
+
+    if (file) {
+      const base64 = await toBase64(file)
+      fileData = {
+        name: file.name,
+        type: file.type,
+        data: base64
+      }
+    }
+
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: [...messages, userMessage]})
+      body: JSON.stringify({ 
+        messages: [...messages, userMessage],
+        file: fileData
+      })
     })
     const data = await response.json()
     const assistantMessage: Message = {

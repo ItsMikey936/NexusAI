@@ -1,5 +1,6 @@
 "use client"
 import type { Message } from "@/types/index"
+import ReactMarkdown from "react-markdown"
 
 export default function ChatMessage({ id, content, role, timestamp, document }: Message) {
   return (
@@ -9,7 +10,7 @@ export default function ChatMessage({ id, content, role, timestamp, document }: 
           ? 'bg-purple-600 text-white rounded-br-none'
           : 'bg-white text-gray-800 border border-gray-100 shadow-sm rounded-bl-none'
         }`}>
-        {content}
+        <ReactMarkdown>{content}</ReactMarkdown>
       </div>
     </div>
   )
