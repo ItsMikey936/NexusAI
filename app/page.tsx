@@ -33,12 +33,6 @@ export default function Home() {
           >
             Talk to the assistant
           </button>
-          <button
-            onClick={() => router.push("/trends")}
-            className="bg-white hover:bg-gray-100 text-gray-700 border border-gray-200 px-8 py-3 rounded-xl font-medium transition-colors duration-150"
-          >
-            View trends
-          </button>
         </div>
 
       </div>
