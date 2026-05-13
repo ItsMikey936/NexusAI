@@ -50,5 +50,5 @@ export type AreaFilterProps = {
 
 // ChatInputProps
 export type ChatInputProps = {
-  onSend: (message: string) => void
+  onSend: (message: string, file?: File) => void
 }
