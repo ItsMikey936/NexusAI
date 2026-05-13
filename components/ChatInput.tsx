@@ -9,14 +9,11 @@ export default function ChatInput({onSend}: ChatInputProps) {
   const [text, setText] = useState("")
   const [file, setFile] = useState<File | null>(null)
 
-
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0]
+    console.log("Selected file:", selected)
     if (selected) setFile(selected)
   }
-
-
 
   const handleSend = () => {
     if(text.trim() === "") return 
